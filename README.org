@@ -37,19 +37,19 @@ Similarly other options like =pacmen remove= or =pacmen remove firefox= will giv
 
 The supported options along with their pacman counter-parts are:
 - View installed packages -> [sudo pacman -Qs]
-  - pacmen v/V
+  - =pacmen v/V=
 - Install package -> [sudo pacman -S]
-  - pacmen i/I/install
+  - =pacmen i/I/install=
 - Remove package -> [sudo pacman -Rs]
-  - pacmen r/R/rem/remove
+  - =pacmen r/R/rem/remove=
 - Search packages -> [sudo pacman -Ss and yay -Ss]
-  - pacmen s/S/search
+  - =pacmen s/S/search=
 - AUR install -> [yay -S]
-  - pacmen a/A/aur
+  - =pacmen a/A/aur=
 - Clean unused -> [yay --sync --clean and yay --clean]
-  - pacmen c/C/clean
+  - =pacmen c/C/clean=
 - Update system -> [sudo pacman -Syyu]
-  - pacmen u/U/update
+  - =pacmen u/U/update=
 
 Notes:
 - Entering 'e' anytime will exit pacmen
