@@ -1,0 +1,56 @@
+#+TITLE: PacmEn, Pacman made easier
+
+* About
+Pacmen is a prompt heavy and user friendly pacman.
+It does not aim to replace pacman, it instead aims at providing easier to remember commands. (similar to Debian's apt)
+
+pacmen can be used by average and advanced users alike and comes with strong defaults like
+- a pager whenever a packaged is search to make it easier to read descriptions (search in pager with '/', back/next with 'N' / 'n' and quit with 'q')
+- fuzzy finder to easily find packages and select it without typing the whole word.
+* Requirements
+- pacman
+- wget (only for installation)
+  - =sudo pacman -S wget=
+- choose
+  - =sudo pacman -S choose=
+- fzf
+  - =sudo pacman -S fzf=
+- less
+  - =sudo pacman -S less=
+- yay
+  - =sudo pacman -S yay=
+* Installation
+#+BEGIN_SRC bash
+wget https://raw.githubusercontent.com/AfzGit/pacmEn/main/pacmen
+chmod a+x pacmen
+sudo mv pacmen /usr/bin/
+#+END_SRC
+* Usage
+pacmen can be used in many different ways
+
+simply typing =pacmen= will put in a prompt mode where you can select installing, removing, deleting packages etc with pacman
+
+=pacmen s= or =pacmen search= will prompt for a name which will be searched in both the default repositories and the AUR.
+=pacmen s firefox= or =pacmen search firefox= will search for 'firefox' in both the default repositories and the AUR without the prompt.
+then a fuzzy finder will help select the package.
+
+similarly =pacmen r= or =pacmen r firefox= will do relatively the same thing
+
+The supported options are:
+- View [pacmen v/V]
+  - sudo pacman -Qs
+- install [pacmen i/I/install]
+  - sudo pacman -S
+- remove [pacmen r/R/rem/remove]
+  - sudo pacman -Rs
+- search [pacmen s/S/search]
+  - sudo pacman -Ss
+  - yay -Ss
+- aur [pacmen a/A/aur]
+  - yay -S
+- clean [pacmen c/C/clean]
+  - yay --sync --clean
+  - yay --clean
+- update [pacmen u/U/update]
+  - sudo pacman -Syyu
+- -h/--help [pacmen -h/--help]
