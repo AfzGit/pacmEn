@@ -1,11 +1,10 @@
-#+TITLE: PacmEn, Pacman made easier
-
 * About
-Pacmen is a prompt heavy and user friendly pacman.
-It does not aim to replace pacman, it instead aims at providing easier to remember commands. (similar to Debian's apt)
+PacmEn (Pacman made Easier) is a prompt heavy and user friendly pacman.
+It does not aim to replace pacman, it instead aims at providing easier to remember commands (similar to Debian's apt).
+if you are having difficulty remembering pacman options (-Rs -S -Qs -Syyu etc), then this is for you.
 
-pacmen can be used by average and advanced users alike and comes with strong defaults like
-- a pager whenever a packaged is search to make it easier to read descriptions (search in pager with '/', back/next with 'N' / 'n' and quit with 'q')
+pacmen can be used by average and advance users alike and comes with strong defaults like:
+- a pager whenever a packaged is search to make it easier to read descriptions (note: search in pager with '/', back/next with 'N' / 'n' and quit with 'q')
 - fuzzy finder to easily find packages and select it without typing the whole word.
 * Requirements
 - pacman
@@ -26,9 +25,9 @@ chmod a+x pacmen
 sudo mv pacmen /usr/bin/
 #+END_SRC
 * Usage
-pacmen can be used in many different ways
+PacmEn can be used in many different ways
 
-simply typing =pacmen= will put you in prompt mode where you can select installing, removing, deleting packages etc with pacman
+simply typing =pacmen= (pacman but with an 'e') will put you in prompt mode where you can select installing, removing, deleting packages etc with pacman
 
 =pacmen i= or =pacmen install= will prompt for a package name to be installed and will search that name in the default repository.
 =pacmen i firefox= or =pacmen install firefox= will install for 'firefox' without the prompt.
@@ -53,3 +52,5 @@ The supported options along with their pacman counter-parts are:
 - update [pacmen u/U/update]
   - sudo pacman -Syyu
 - -h/--help [pacmen -h/--help]
+
+note: Entering 'e' anytime will exit pacmen
