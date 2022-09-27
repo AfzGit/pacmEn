@@ -1,7 +1,7 @@
 * About
 PacmEn (Pacman made Easier) is a prompt heavy and user friendly pacman.
 It does not aim to replace pacman, it instead aims at providing easier to remember commands (similar to Debian's apt).
-if you are having difficulty remembering pacman options (-Rs -S -Qs -Syyu etc), then this is for you.
+If you are having difficulty remembering pacman options (-Rs -S -Qs -Syyu etc), then this is for you.
 
 pacmen can be used by average and advance users alike and comes with strong defaults like:
 - a pager whenever a packaged is search to make it easier to read descriptions (note: search in pager with '/', back/next with 'N' / 'n' and quit with 'q')
@@ -35,21 +35,21 @@ simply typing =pacmen= (pacman but with an 'e') will put you in prompt mode wher
 similarly other options like =pacmen remove= or =pacmen remove firefox= will give remove prompt or remove the specified package.
 
 The supported options along with their pacman counter-parts are:
-- View [pacmen v/V]
+- View installed packages -> [pacmen v/V]
   - sudo pacman -Qs
-- install [pacmen i/I/install]
+- Install package -> [pacmen i/I/install]
   - sudo pacman -S
-- remove [pacmen r/R/rem/remove]
+- Remove package -> [pacmen r/R/rem/remove]
   - sudo pacman -Rs
-- search [pacmen s/S/search]
+- Search packages -> [pacmen s/S/search]
   - sudo pacman -Ss
   - yay -Ss
-- aur [pacmen a/A/aur]
+- AUR install -> [pacmen a/A/aur]
   - yay -S
-- clean [pacmen c/C/clean]
+- Clean unused -> [pacmen c/C/clean]
   - yay --sync --clean
   - yay --clean
-- update [pacmen u/U/update]
+- Update system -> [pacmen u/U/update]
   - sudo pacman -Syyu
 - -h/--help [pacmen -h/--help]
 
