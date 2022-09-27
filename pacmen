@@ -1,0 +1,166 @@
+#!/bin/sh
+
+# initial prompt
+if ! [[ -n "$1" ]]; then
+    
+    echo -e "=== Pacmen ==="
+    echo -e "[R]emove a package"
+    echo -e "[I]nstall a package"
+    echo -e "[S]earch a package (official then aur)"
+    echo -e "[U]pdate whole system"
+    echo -e "[V]iew installed packages"
+    echo -e "[A]UR package install (using yay)"
+    echo -e "[C]lean unused packages and files"
+    echo -e "[E] to exit anytime\n"
+
+    read -p "Choose: " x
+fi
+
+# help
+if [[ "$1" = "-h" || "$1" = "--help" ||  "$1" = "h" || "$1" = "help" ]]; then
+
+    echo "Pacmen is a prompt-heavy and user friendly pacman."
+
+    echo -e "\nUsage:"
+    echo -e "-> pacmen\n     for the prompt version"
+    echo -e "-> pacmen remove\n     To Remove packages"
+    echo -e "-> pacmen install\n     To Install packages"
+    echo -e "-> pacmen search\n     To search for packages"
+    echo -e "-> pacmen update\n     To Update system"
+    echo -e "-> pacmen view\n     To view installed packages"
+    echo -e "-> pacmen aur\n     To install packages from the AUR"
+    echo -e "-> pacmen clean\n     To clean from installed packages"
+
+    echo -e "\nExamples:"
+    echo -e "-> pacmen install firefox\n     will search for firefox and install it"
+    echo -e "-> pacmen i firefox\n     will also search for firefox and install it"
+    echo -e "-> pacmen remove firefox\n     will remove firefox"
+
+# for removing a package
+elif [[ "$x" = "r" || "$x" = "R" || "$1" = "r" || "$1" = "R" || "$1" = "remove" || "$1" = "rem" ]]; then
+
+    if ! [[ -n "$2" ]]; then
+        rem=$(pacman -Qs | choose --field-separator / 1 | choose 0 | fzf --height=35% --border=sharp)
+    else
+        rem=$2
+    fi
+
+    if [[ "$rem" = "e" || "$rem" = "E" ]]; then
+        echo "Exiting..."
+        exit
+    fi
+
+    echo "-> sudo pacman -Rs $rem"
+    sudo pacman -Rs $rem
+
+# for installing 
+elif [[ "$x" = "i" || "$x" = "I" || "$1" = "i" || "$1" = "I" || "$1" = "install" ]]; then
+
+    # for 2nd argument already given with install (like pacmen i vim)
+    if ! [[ -n "$2" ]]; then
+        read -p "Package search: " pak
+    else
+        pak=$2
+    fi
+
+    if [[ "$pak" = "e" || "$pak" = "E" ]]; then
+        echo "Exiting..."
+        exit
+    fi
+
+    pacman -Ss $pak | less
+    pakinstall=$(pacman -Ss $pak | choose --field-separator / 1 | choose 0 | fzf --height=35% --border=sharp)
+
+    echo "-> sudo pacman -S $pakinstall"
+    sudo pacman -S $pakinstall
+
+# for searching
+elif [[ "$x" = "s" || "$x" = "S" || "$1" = "s" || "$1" = "S" || "$1" = "search" ]]; then
+
+    # for 2nd argument already given with install (like pacmen i vim)
+    if ! [[ -n "$2" ]]; then
+        read -p "Package search: " pak
+    else
+        pak=$2
+    fi
+
+    if [[ "$pak" = "e" || "$pak" = "E" ]]; then
+        echo "Exiting..."
+        exit
+    fi
+
+    echo "-> pacman -Ss $pak | less"
+    pacman -Ss $pak | less
+
+    read -p "Search the AUR? [Y/n] " choice
+
+    if [[ "$choice" = "n" || "$choice" = "N" ]]; then
+        echo "Exiting..."
+        exit
+    else
+        echo "-> yay -Ss $pak | less"
+        yay -Ss $pak | less
+    fi
+
+# for installing from the AUR
+elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]]; then
+
+    if ! [[ -n "$2" ]]; then
+        read -p "AUR Package search: " pak
+    else
+        pak=$2
+    fi
+
+    if [[ "$pak" = "e" || "$pak" = "E" ]]; then
+        echo "Exiting..."
+        exit
+    fi
+
+    yay -Ss $pak | less
+    pakinstall=$(yay -Ss $pak | choose --field-separator / 1 | choose 0 | fzf --height=35% --border=sharp)
+
+    echo "-> sudo yay -S $pakinstall"
+    sudo yay -S $pakinstall
+
+# cleaning 
+elif [[ "$x" = "c" || "$x" = "C" || "$1" = "c" || "$1" = "C" || "$1" = "clean" ]]; then
+
+    echo "-> yay --sync --clean"
+    yay --sync --clean
+
+    read -p "Remove uneeded dependencies? [Y/n]" choice
+
+    if [[ "$choice" = "n" || "$choice" = "N" ]]; then
+        echo "Exiting..."
+        exit
+    else
+        echo "-> yay --clean"
+        yay --clean
+    fi
+
+
+# updating the whole system
+elif [[ "$x" = "U" || "$x" = "u" || "$1" = "u" || "$1" = "U" || "$1" = "update" ]]; then
+
+    echo "-> sudo pacman -Syyu"
+    sudo pacman -Syyu
+
+# view packages
+elif [[ "$x" = "v" || "$x" = "V" || "$1" = "v" || "$1" = "V" || "$1" = "view" ]]; then
+
+    echo "-> pacman -Qs | less"
+    pacman -Qs | less
+
+# exiting if choice is e
+elif [[ "$x" = "E" || "$x" = "e" ]]; then
+
+    echo "Exiting..."
+    exit
+
+
+# wrong choice
+else
+
+    echo "Unknown inputs."
+
+fi
