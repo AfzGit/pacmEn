@@ -35,22 +35,22 @@ simply typing =pacmen= (pacman but with an 'e') will put you in prompt mode wher
 similarly other options like =pacmen remove= or =pacmen remove firefox= will give remove prompt or remove the specified package.
 
 The supported options along with their pacman counter-parts are:
-- View installed packages -> [pacmen v/V]
-  - sudo pacman -Qs
-- Install package -> [pacmen i/I/install]
-  - sudo pacman -S
-- Remove package -> [pacmen r/R/rem/remove]
-  - sudo pacman -Rs
-- Search packages -> [pacmen s/S/search]
-  - sudo pacman -Ss
-  - yay -Ss
-- AUR install -> [pacmen a/A/aur]
-  - yay -S
-- Clean unused -> [pacmen c/C/clean]
-  - yay --sync --clean
-  - yay --clean
-- Update system -> [pacmen u/U/update]
-  - sudo pacman -Syyu
+- View installed packages -> [sudo pacman -Qs]
+  - pacmen v/V
+- Install package -> [sudo pacman -S]
+  - pacmen i/I/install
+- Remove package -> [sudo pacman -Rs]
+  - pacmen r/R/rem/remove
+- Search packages -> [sudo pacman -Ss and yay -Ss]
+  - pacmen s/S/search
+- AUR install -> [yay -S]
+  - pacmen a/A/aur
+- Clean unused -> [yay --sync --clean and yay --clean]
+  - pacmen c/C/clean
+- Update system -> [sudo pacman -Syyu]
+  - pacmen u/U/update
 - -h/--help [pacmen -h/--help]
 
-note: Entering 'e' anytime will exit pacmen
+Notes:
+- Entering 'e' anytime will exit pacmen
+- I am not responsible for any damages you encounter using this script.
