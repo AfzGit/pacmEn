@@ -6,7 +6,7 @@ It does not aim to replace pacman, but it instead aims at providing easier to re
 
 PacmEn can be used by average and advance users alike and comes with strong defaults like:
 - a pager whenever a package is search to make it easier to read descriptions (note: search in pager with '/', back/next with 'N' / 'n' and quit with 'q')
-- fuzzy finder to easily find packages and select it without typing the whole word.
+- fuzzy finder to easily find packages and select it without typing the whole name.
 * Requirements
 - pacman
 - wget (only for installation)
