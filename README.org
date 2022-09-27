@@ -28,15 +28,14 @@ sudo mv pacmen /usr/bin/
 * Usage
 pacmen can be used in many different ways
 
-simply typing =pacmen= will put in a prompt mode where you can select installing, removing, deleting packages etc with pacman
+simply typing =pacmen= will put you in prompt mode where you can select installing, removing, deleting packages etc with pacman
 
-=pacmen s= or =pacmen search= will prompt for a name which will be searched in both the default repositories and the AUR.
-=pacmen s firefox= or =pacmen search firefox= will search for 'firefox' in both the default repositories and the AUR without the prompt.
-then a fuzzy finder will help select the package.
+=pacmen i= or =pacmen install= will prompt for a package name to be installed and will search that name in the default repository.
+=pacmen i firefox= or =pacmen install firefox= will install for 'firefox' without the prompt.
 
-similarly =pacmen r= or =pacmen r firefox= will do relatively the same thing
+similarly other options like =pacmen remove= or =pacmen remove firefox= will give remove prompt or remove the specified package.
 
-The supported options are:
+The supported options along with their pacman counter-parts are:
 - View [pacmen v/V]
   - sudo pacman -Qs
 - install [pacmen i/I/install]
