@@ -1,7 +1,7 @@
 * About
-PacmEn (Pacman made Easier) is a prompt heavy and user friendly pacman.
-It does not aim to replace pacman, it instead aims at providing easier to remember commands (similar to Debian's apt).
+PacmEn (Pacman made Easier) is a prompt heavy, simple and user friendly pacman script.
 If you are having difficulty remembering pacman options (-Rs -S -Qs -Syyu etc), then this is for you.
+It does not aim to replace pacman, it instead aims at providing easier to remember commands (similar to Debian's apt).
 
 pacmen can be used by average and advance users alike and comes with strong defaults like:
 - a pager whenever a packaged is search to make it easier to read descriptions (note: search in pager with '/', back/next with 'N' / 'n' and quit with 'q')
