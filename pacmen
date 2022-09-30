@@ -40,6 +40,7 @@ if [[ "$1" = "-h" || "$1" = "--help" ||  "$1" = "h" || "$1" = "help" ]]; then
 elif [[ "$x" = "r" || "$x" = "R" || "$1" = "r" || "$1" = "R" || "$1" = "remove" || "$1" = "rem" ]]; then
 
     if ! [[ -n "$2" ]]; then
+        echo "Select package to remove:"
         rem=$(pacman -Qs | choose --field-separator / 1 | choose 0 | fzf --height=35% --border=sharp)
     else
         rem=$2
@@ -69,6 +70,7 @@ elif [[ "$x" = "i" || "$x" = "I" || "$1" = "i" || "$1" = "I" || "$1" = "install"
     fi
 
     pacman -Ss $pak | less
+    echo "Select package to install:"
     pakinstall=$(pacman -Ss $pak | choose --field-separator / 1 | choose 0 | fzf --height=35% --border=sharp)
 
     echo "-> sudo pacman -S $pakinstall"
@@ -117,6 +119,7 @@ elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]];
     fi
 
     yay -Ss $pak | less
+    echo "Select package to install:"
     pakinstall=$(yay -Ss $pak | choose --field-separator / 1 | choose 0 | fzf --height=35% --border=sharp)
 
     echo "-> yay -S $pakinstall"
