@@ -119,8 +119,8 @@ elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]];
     yay -Ss $pak | less
     pakinstall=$(yay -Ss $pak | choose --field-separator / 1 | choose 0 | fzf --height=35% --border=sharp)
 
-    echo "-> sudo yay -S $pakinstall"
-    sudo yay -S $pakinstall
+    echo "-> yay -S $pakinstall"
+    yay -S $pakinstall
 
 # cleaning 
 elif [[ "$x" = "c" || "$x" = "C" || "$1" = "c" || "$1" = "C" || "$1" = "clean" ]]; then
