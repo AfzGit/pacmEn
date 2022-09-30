@@ -1,6 +1,8 @@
 * About
 PacmEn (Pacman made Easier) is a prompt heavy, simple and user friendly pacman script.
 
+[[file:output.gif][Gif]]
+
 If you are having difficulty remembering pacman options (-Rs -S -Qs -Syyu etc), then this is for you.
 It does not aim to replace pacman, but it instead aims at providing easier to remember commands (similar to Debian's apt).
 
