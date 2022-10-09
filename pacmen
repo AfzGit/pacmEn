@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # initial prompt
 if ! [[ -n "$1" ]]; then
