@@ -41,12 +41,13 @@ elif [[ "$x" = "r" || "$x" = "R" || "$1" = "r" || "$1" = "R" || "$1" = "remove" 
 
     if ! [[ -n "$2" ]]; then
         echo "Select package to remove:"
-        rem=$(pacman -Qs | choose --field-separator / 1 | choose 0 | fzf --height=35% --border=sharp)
+        rem=$(pacman -Qs | awk -F/ '{print $2}' | awk '{print $1}' | fzf --height=35% --border=sharp)
     else
         rem=$2
     fi
 
-    if [[ "$rem" = "e" || "$rem" = "E" ]]; then
+    # exit if empty or input is e
+    if [[ "$rem" = "e" || "$rem" = "E" || -z "$rem" ]]; then
         echo "Exiting..."
         exit
     fi
@@ -71,7 +72,13 @@ elif [[ "$x" = "i" || "$x" = "I" || "$1" = "i" || "$1" = "I" || "$1" = "install"
 
     pacman -Ss $pak | less
     echo "Select package to install:"
-    pakinstall=$(pacman -Ss $pak | choose --field-separator / 1 | choose 0 | fzf --height=35% --border=sharp)
+    pakinstall=$(pacman -Ss $pak | awk -F/ '{print $2}' | awk '{print $1}' | fzf --height=35% --border=sharp)
+
+    # exit if empty or input is e
+    if [[ "$pakinstall" = "e" || "$pakinstall" = "E" || -z "$pakinstall" ]]; then
+        echo "Exiting..."
+        exit
+    fi
 
     echo "-> sudo pacman -S $pakinstall"
     sudo pacman -S $pakinstall
@@ -120,7 +127,13 @@ elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]];
 
     yay -Ss $pak | less
     echo "Select package to install:"
-    pakinstall=$(yay -Ss $pak | choose --field-separator / 1 | choose 0 | fzf --height=35% --border=sharp)
+    pakinstall=$(yay -Ss $pak | awk -F/ '{print $2}' | awk '{print $1}' | fzf --height=35% --border=sharp)
+
+    # exit if empty or input is e
+    if [[ "$pakinstall" = "e" || "$pakinstall" = "E" || -z "$pakinstall" ]]; then
+        echo "Exiting..."
+        exit
+    fi
 
     echo "-> yay -S $pakinstall"
     yay -S $pakinstall

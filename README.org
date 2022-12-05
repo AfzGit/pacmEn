@@ -11,10 +11,9 @@ PacmEn can be used by average and advance users alike and comes with strong defa
 - fuzzy finder to easily find packages and select it without typing the whole name.
 * Requirements
 - pacman
-- wget (only for installation)
+- wget or curl (only for installation)
   - =sudo pacman -S wget=
-- choose
-  - =sudo pacman -S choose=
+  - =sudo pacman -S curl=
 - fzf
   - =sudo pacman -S fzf=
 - less
@@ -22,8 +21,15 @@ PacmEn can be used by average and advance users alike and comes with strong defa
 - yay
   - =sudo pacman -S yay=
 * Installation
+- Using wget
 #+BEGIN_SRC bash
 wget https://raw.githubusercontent.com/AfzGit/pacmEn/main/pacmen
+chmod a+x pacmen
+sudo mv pacmen /usr/bin/
+#+END_SRC
+- Using curl
+#+BEGIN_SRC bash
+curl https://raw.githubusercontent.com/AfzGit/pacmEn/main/pacmen --output pacmen
 chmod a+x pacmen
 sudo mv pacmen /usr/bin/
 #+END_SRC
