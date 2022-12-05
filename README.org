@@ -38,7 +38,7 @@ PacmEn can be used in many different ways
 
 simply typing =pacmen= (pacman but with an 'e') will put you in prompt mode where you can select installing, removing, deleting packages etc with pacman
 
-=pacmen i= or =pacmen install= will prompt the user to enter package name, this name will be searched in the default repository and then installed.
+=pacmen i= or =pacmen install= will prompt the user to enter the package name, this name will be searched in the default repository and then installed.
 =pacmen i firefox= or =pacmen install firefox= will install 'firefox' but without the prompt.
 
 Similarly other options like =pacmen remove= or =pacmen remove firefox= will give remove prompt or remove the specified package.
