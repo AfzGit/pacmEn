@@ -144,22 +144,22 @@ elif [[ "$x" = "c" || "$x" = "C" || "$1" = "c" || "$1" = "C" || "$1" = "clean" ]
     echo "-> yay --sync --clean"
     yay --sync --clean
 
-    read -p "Remove uneeded dependencies? [Y/n]" choice
-
-    if [[ "$choice" = "n" || "$choice" = "N" ]]; then
-        echo "Exiting..."
-        exit
-    else
-        echo "-> yay --clean"
-        yay --clean
-    fi
-
-
 # updating the whole system
 elif [[ "$x" = "U" || "$x" = "u" || "$1" = "u" || "$1" = "U" || "$1" = "update" ]]; then
 
     echo "-> sudo pacman -Syyu"
     sudo pacman -Syyu
+
+    read -p "Update AUR Packages? [Y/n]" choice
+
+    if [[ "$choice" = "n" || "$choice" = "N" ]]; then
+        echo "Exiting..."
+        exit
+    else
+        echo "-> yay --refresh"
+        yay --refresh
+    fi
+
 
 # view packages
 elif [[ "$x" = "v" || "$x" = "V" || "$1" = "v" || "$1" = "V" || "$1" = "view" ]]; then
