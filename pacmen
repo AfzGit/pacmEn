@@ -2,7 +2,7 @@
 
 # initial prompt
 if ! [[ -n "$1" ]]; then
-    
+
     echo -e "=== Pacmen ==="
     echo -e "[R]emove a package"
     echo -e "[I]nstall a package"
@@ -150,7 +150,7 @@ elif [[ "$x" = "U" || "$x" = "u" || "$1" = "u" || "$1" = "U" || "$1" = "update" 
     echo "-> sudo pacman -Syyu"
     sudo pacman -Syyu
 
-    read -p "Update AUR Packages? [Y/n]" choice
+    read -p "Update AUR Packages? [Y/n] " choice
 
     if [[ "$choice" = "n" || "$choice" = "N" ]]; then
         echo "Exiting..."
