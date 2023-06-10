@@ -18,8 +18,9 @@ PacmEn can be used by average and advance users alike and comes with strong defa
   - =sudo pacman -S fzf=
 - less
   - =sudo pacman -S less=
-- yay
-  - =sudo pacman -S yay=
+- yay or paru
+  - [[https://github.com/Jguer/yay][yay]]
+  - [[https://github.com/Morganamilo/paru][paru]]
 * Installation
 - Using wget
 #+BEGIN_SRC bash
