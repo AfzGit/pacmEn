@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# AUR=yay
+AUR=paru
 # initial prompt
 if ! [[ -n "$1" ]]; then
 
@@ -9,7 +10,7 @@ if ! [[ -n "$1" ]]; then
     echo -e "[S]earch a package (official then aur)"
     echo -e "[U]pdate whole system"
     echo -e "[V]iew installed packages"
-    echo -e "[A]UR package install (using yay)"
+    echo -e "[A]UR package install (using paru)"
     echo -e "[C]lean unused packages and files"
     echo -e "[E] to exit anytime\n"
 
@@ -70,7 +71,7 @@ elif [[ "$x" = "i" || "$x" = "I" || "$1" = "i" || "$1" = "I" || "$1" = "install"
         exit
     fi
 
-    pacman -Ss $pak | less
+    pacsearch -Ss $pak | less
     echo "Select package to install:"
     pakinstall=$(pacman -Ss $pak | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
 
@@ -107,8 +108,8 @@ elif [[ "$x" = "s" || "$x" = "S" || "$1" = "s" || "$1" = "S" || "$1" = "search" 
         echo "Exiting..."
         exit
     else
-        echo "-> yay -Ss $pak | less"
-        yay -Ss $pak | less
+        echo "-> $AUR -Ss $pak | less"
+        $AUR -Ss $pak | less
     fi
 
 # for installing from the AUR
@@ -125,9 +126,9 @@ elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]];
         exit
     fi
 
-    yay -Ss $pak | less
+    $AUR -Ss $pak | less
     echo "Select package to install:"
-    pakinstall=$(yay -Ss $pak | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
+    pakinstall=$($AUR -Ss $pak | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
 
     # exit if empty or input is e
     if [[ "$pakinstall" = "e" || "$pakinstall" = "E" || -z "$pakinstall" ]]; then
@@ -135,14 +136,14 @@ elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]];
         exit
     fi
 
-    echo "-> yay -S $pakinstall"
-    yay -S $pakinstall
+    echo "-> $AUR -S $pakinstall"
+    $AUR -S $pakinstall
 
 # cleaning 
 elif [[ "$x" = "c" || "$x" = "C" || "$1" = "c" || "$1" = "C" || "$1" = "clean" ]]; then
 
-    echo "-> yay --sync --clean"
-    yay --sync --clean
+    echo "-> $AUR --sync --clean"
+    $AUR --sync --clean
 
 # updating the whole system
 elif [[ "$x" = "U" || "$x" = "u" || "$1" = "u" || "$1" = "U" || "$1" = "update" ]]; then
@@ -156,8 +157,8 @@ elif [[ "$x" = "U" || "$x" = "u" || "$1" = "u" || "$1" = "U" || "$1" = "update" 
         echo "Exiting..."
         exit
     else
-        echo "-> yay --refresh"
-        yay --refresh
+        echo "-> $AUR --refresh"
+        $AUR --refresh
     fi
 
 
