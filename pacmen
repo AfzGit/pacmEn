@@ -142,6 +142,8 @@ elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]];
 # cleaning 
 elif [[ "$x" = "c" || "$x" = "C" || "$1" = "c" || "$1" = "C" || "$1" = "clean" ]]; then
 
+    echo "-> paccache -r"
+    paccache -r
     echo "-> $AUR --sync --clean"
     $AUR --sync --clean
 
@@ -156,9 +158,12 @@ elif [[ "$x" = "U" || "$x" = "u" || "$1" = "u" || "$1" = "U" || "$1" = "update" 
     if [[ "$choice" = "n" || "$choice" = "N" ]]; then
         echo "Exiting..."
         exit
-    else
-        echo "-> $AUR --refresh"
-        $AUR --refresh
+    elif [[ "$AUR" = "yay" ]]; then
+        echo "-> yay --refresh"
+        yay --refresh
+    elif [[ "$AUR" = "paru" ]]; then
+        echo "-> paru -Sua"
+        paru -Sua
     fi
 
 
@@ -181,3 +186,7 @@ else
     echo "Unknown inputs."
 
 fi
+
+echo    "=============================="
+read -p "Press ENTER or Ctrl-C to exit." x
+echo    "=============================="
