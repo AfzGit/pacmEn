@@ -44,7 +44,7 @@ elif [[ "$x" = "r" || "$x" = "R" || "$1" = "r" || "$1" = "R" || "$1" = "remove" 
         echo "Select package to remove:"
         rem=$(pacman -Qs | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
     else
-        rem=$2
+        rem=$(pacman -Qs $2 | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
     fi
 
     # exit if empty or input is e
