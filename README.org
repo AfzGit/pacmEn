@@ -1,5 +1,5 @@
 * About
-PacmEn (Pacman made Easier) is a prompt heavy, simple and user friendly pacman script.
+PacmEn (Pacman made Easier) is an interactive, simple and user friendly pacman script.
 
 [[file:output.gif][Showcase]]
 
@@ -18,7 +18,7 @@ PacmEn can be used by average and advance users alike and comes with strong defa
   - =sudo pacman -S fzf=
 - less
   - =sudo pacman -S less=
-- yay or paru
+- yay or paru (default)
   - [[https://github.com/Jguer/yay][yay]]
   - [[https://github.com/Morganamilo/paru][paru]]
 * Installation
@@ -45,23 +45,23 @@ simply typing =pacmen= (pacman but with an 'e') will put you in prompt mode wher
 Similarly other options like =pacmen remove= or =pacmen remove firefox= will give remove prompt or remove the specified package.
 
 The supported options along with their pacman counter-parts are:
-- View installed packages -> [sudo pacman -Qs]
-  - =pacmen v/V=
+- AUR install -> [yay -S]
+  - =pacmen a/A/aur=
+- Clean unused -> [yay --sync --clean and yay --clean]
+  - =pacmen c/C/clean=
 - Install package -> [sudo pacman -S]
   - =pacmen i/I/install=
 - Remove package -> [sudo pacman -Rs]
   - =pacmen r/R/rem/remove=
 - Search packages -> [sudo pacman -Ss and yay -Ss]
   - =pacmen s/S/search=
-- AUR install -> [yay -S]
-  - =pacmen a/A/aur=
-- Clean unused -> [yay --sync --clean and yay --clean]
-  - =pacmen c/C/clean=
-- Update system -> [sudo pacman -Syyu]
-  - =pacmen u/U/update=
 - Tree dependency view -> [pactree]
   - =pacmen t/T/tree=
+- Update system -> [sudo pacman -Syyu]
+  - =pacmen u/U/update=
+- View installed packages -> [sudo pacman -Qs]
+  - =pacmen v/V=
 
 Notes:
-- Entering 'e' anytime will exit pacmen
+- Select your AUR helper at the top of the script using the =AUR= variable (is paru by default)
 - I am not responsible for any damages you encounter using this script.

@@ -1,63 +1,97 @@
 #!/bin/bash
+
+# -------------------------------
+# Chose the aur helper you use
+# -------------------------------
 # AUR=yay
-AUR=paru
-# initial prompt
+# AUR=paru
+# -------------------------------
+
+# Variable AUR set:
+if [[ -n $AUR ]]; then
+    AUR=$AUR
+
+# Variable AUR not set:
+else
+
+    if [[ -f $(which paru) ]]; then
+        AUR=paru
+    elif [[ -f $(which yay) ]]; then
+        AUR=yay
+    else
+        echo "Warning! No AUR helper detected!"
+    fi
+
+fi
+
+# Initial prompt
 if ! [[ -n "$1" ]]; then
 
     echo -e "=== Pacmen ==="
-    echo -e "[R]emove a package"
-    echo -e "[I]nstall a package"
-    echo -e "[S]earch a package (official then aur)"
-    echo -e "[U]pdate whole system"
-    echo -e "[V]iew installed packages"
     echo -e "[A]UR package install (using paru)"
     echo -e "[C]lean unused packages and files"
+    echo -e "[I]nstall a package"
+    echo -e "[R]emove a package"
+    echo -e "[S]earch a package (official then aur)"
     echo -e "[T]ree view of dependencies of a package"
-    echo -e "[E] to exit anytime\n"
+    echo -e "[U]pdate whole system"
+    echo -e "[V]iew installed packages\n"
 
     read -p "Choose: " x
 fi
 
-# help
+# HELP
 if [[ "$1" = "-h" || "$1" = "--help" ||  "$1" = "h" || "$1" = "help" ]]; then
 
-    echo "Pacmen is a prompt-heavy and user friendly pacman."
+    echo "Pacmen is an interactive and user friendly frontend pacman."
 
     echo -e "\nUsage:"
-    echo -e "-> pacmen\n     for the prompt version"
-    echo -e "-> pacmen remove\n     To Remove packages"
-    echo -e "-> pacmen install\n     To Install packages"
-    echo -e "-> pacmen search\n     To search for packages"
-    echo -e "-> pacmen update\n     To Update system"
-    echo -e "-> pacmen view\n     To view installed packages"
+    echo -e "-> pacmen\n     Interactive version"
     echo -e "-> pacmen aur\n     To install packages from the AUR"
     echo -e "-> pacmen clean\n     To clean from installed packages"
+    echo -e "-> pacmen install\n     To Install packages"
+    echo -e "-> pacmen remove\n     To Remove packages"
+    echo -e "-> pacmen search\n     To search for packages"
+    echo -e "-> pacmen tree\n     See package dependencies"
+    echo -e "-> pacmen update\n     To Update system"
+    echo -e "-> pacmen view\n     To view installed packages"
 
     echo -e "\nExamples:"
     echo -e "-> pacmen install firefox\n     will search for firefox and install it"
     echo -e "-> pacmen i firefox\n     will also search for firefox and install it"
     echo -e "-> pacmen remove firefox\n     will remove firefox"
 
-# for removing a package
-elif [[ "$x" = "r" || "$x" = "R" || "$1" = "r" || "$1" = "R" || "$1" = "remove" || "$1" = "rem" ]]; then
+    exit
+
+# AUR: for installing from the AUR
+elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]]; then
 
     if ! [[ -n "$2" ]]; then
-        echo "Select package to remove:"
-        rem=$(pacman -Qs | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
+        read -p "AUR Package search: " pak
     else
-        rem=$(pacman -Qs $2 | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
+        pak=$2
     fi
 
-    # exit if empty or input is e
-    if [[ "$rem" = "e" || "$rem" = "E" || -z "$rem" ]]; then
+    # $AUR -Ss $pak | less
+    echo "Select package to install:"
+    pakinstall=$($AUR -Ss $pak | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
+
+    if [[ -z $pakinstall ]]; then
         echo "Exiting..."
         exit
     fi
+    echo "-> $AUR -S $pakinstall"
+    $AUR -S $pakinstall
 
-    echo "-> sudo pacman -Rs $rem"
-    sudo pacman -Rs $rem
+# CLEAN: cleaning packages cache
+elif [[ "$x" = "c" || "$x" = "C" || "$1" = "c" || "$1" = "C" || "$1" = "clean" ]]; then
 
-# for installing 
+    echo "-> paccache -r"
+    paccache -r
+    echo "-> $AUR --sync --clean"
+    $AUR --sync --clean
+
+# INSTALL: for installing pakages
 elif [[ "$x" = "i" || "$x" = "I" || "$1" = "i" || "$1" = "I" || "$1" = "install" ]]; then
 
     # for 2nd argument already given with search (like pacmen s vim)
@@ -67,24 +101,31 @@ elif [[ "$x" = "i" || "$x" = "I" || "$1" = "i" || "$1" = "I" || "$1" = "install"
         pak=$2
     fi
 
-    if [[ "$pak" = "e" || "$pak" = "E" ]]; then
-        echo "Exiting..."
-        exit
-    fi
-
     echo "Select package to install:"
     pakinstall=$(pacman -Ss $pak | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
 
-    # exit if empty or input is e
-    if [[ "$pakinstall" = "e" || "$pakinstall" = "E" || -z "$pakinstall" ]]; then
+    echo "-> sudo pacman -S $pakinstall"
+    if [[ -z $pakinstall ]]; then
         echo "Exiting..."
         exit
     fi
 
-    echo "-> sudo pacman -S $pakinstall"
     sudo pacman -S $pakinstall
 
-# for searching
+# REM: for removing a package
+elif [[ "$x" = "r" || "$x" = "R" || "$1" = "r" || "$1" = "R" || "$1" = "remove" || "$1" = "rem" ]]; then
+
+    if ! [[ -n "$2" ]]; then
+        echo "Select package to remove:"
+        rem=$(pacman -Qs | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
+    else
+        rem=$(pacman -Qs $2 | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
+    fi
+
+    echo "-> sudo pacman -Rs $rem"
+    sudo pacman -Rs $rem
+
+# SEARCH: for searching pakages to install
 elif [[ "$x" = "s" || "$x" = "S" || "$1" = "s" || "$1" = "S" || "$1" = "search" ]]; then
 
     # for 2nd argument already given with install (like pacmen i vim)
@@ -92,11 +133,6 @@ elif [[ "$x" = "s" || "$x" = "S" || "$1" = "s" || "$1" = "S" || "$1" = "search" 
         read -p "Package search: " pak
     else
         pak=$2
-    fi
-
-    if [[ "$pak" = "e" || "$pak" = "E" ]]; then
-        echo "Exiting..."
-        exit
     fi
 
     echo "-> pacman -Ss $pak | less"
@@ -113,9 +149,9 @@ elif [[ "$x" = "s" || "$x" = "S" || "$1" = "s" || "$1" = "S" || "$1" = "search" 
     fi
 
     read -p "Install from Local/Aur/No? [L/A/N] " choice
-    if [[ $choice == "L" || $choice == "l" ]]; then
+    if [[ $choice = "L" || $choice = "l" ]]; then
         pacmen i $pak
-    elif [[ $choice == "A" || $choice == "a" ]]; then
+    elif [[ $choice = "A" || $choice = "a" ]]; then
         pacmen a $pak
     else
         exit
@@ -123,42 +159,19 @@ elif [[ "$x" = "s" || "$x" = "S" || "$1" = "s" || "$1" = "S" || "$1" = "search" 
 
     exit
 
-# for installing from the AUR
-elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]]; then
-
-    if ! [[ -n "$2" ]]; then
-        read -p "AUR Package search: " pak
+# TREE: Tree view of dependencies using pactree
+elif [[ "$x" = "t" || "$x" = "T" || "$1" = "t" || "$1" = "T" || "$1" = "tree" ]]; then
+    if [[ -z "$2" ]]; then
+        pak=$(pacman -Qs | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
     else
-        pak=$2
+        pak=$(pacman -Qs $2 | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
     fi
 
-    if [[ "$pak" = "e" || "$pak" = "E" ]]; then
-        echo "Exiting..."
-        exit
-    fi
+    pactree $pak | less
 
-    # $AUR -Ss $pak | less
-    echo "Select package to install:"
-    pakinstall=$($AUR -Ss $pak | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
+    exit
 
-    # exit if empty or input is e
-    if [[ "$pakinstall" = "e" || "$pakinstall" = "E" || -z "$pakinstall" ]]; then
-        echo "Exiting..."
-        exit
-    fi
-
-    echo "-> $AUR -S $pakinstall"
-    $AUR -S $pakinstall
-
-# cleaning 
-elif [[ "$x" = "c" || "$x" = "C" || "$1" = "c" || "$1" = "C" || "$1" = "clean" ]]; then
-
-    echo "-> paccache -r"
-    paccache -r
-    echo "-> $AUR --sync --clean"
-    $AUR --sync --clean
-
-# updating the whole system
+# UPDATE: updating the whole system
 elif [[ "$x" = "U" || "$x" = "u" || "$1" = "u" || "$1" = "U" || "$1" = "update" ]]; then
 
     echo "-> sudo pacman -Syyu"
@@ -177,10 +190,8 @@ elif [[ "$x" = "U" || "$x" = "u" || "$1" = "u" || "$1" = "U" || "$1" = "update" 
         paru -Sua
     fi
 
-
-# view packages
+# VIEW: view packages
 elif [[ "$x" = "v" || "$x" = "V" || "$1" = "v" || "$1" = "V" || "$1" = "view" ]]; then
-
 
     if [[ -z "$2" ]]; then
         echo "-> pacman -Qs | less"
@@ -191,24 +202,6 @@ elif [[ "$x" = "v" || "$x" = "V" || "$1" = "v" || "$1" = "V" || "$1" = "view" ]]
     fi
 
     exit
-
-elif [[ "$x" = "t" || "$x" = "T" || "$1" = "t" || "$1" = "T" || "$1" = "tree" ]]; then
-    if [[ -z "$2" ]]; then
-        pak=$(pacman -Qs | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
-    else
-        pak=$(pacman -Qs $2 | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
-    fi
-
-    pactree $pak | less
-
-    exit
-
-# exiting if choice is e
-elif [[ "$x" = "E" || "$x" = "e" ]]; then
-
-    echo "Exiting..."
-    exit
-
 
 # wrong choice
 else
