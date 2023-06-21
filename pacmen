@@ -86,10 +86,14 @@ elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]];
 # CLEAN: cleaning packages cache
 elif [[ "$x" = "c" || "$x" = "C" || "$1" = "c" || "$1" = "C" || "$1" = "clean" ]]; then
 
+    echo "Remove unused dependencies"
+    echo "-> pacman -Qtdq | sudo pacman -Rns -"
+    pacman -Qtdq | sudo pacman -Rns -
     echo "-> paccache -r"
     paccache -r
     echo "-> $AUR --sync --clean"
     $AUR --sync --clean
+
 
 # INSTALL: for installing pakages
 elif [[ "$x" = "i" || "$x" = "I" || "$1" = "i" || "$1" = "I" || "$1" = "install" ]]; then
@@ -141,8 +145,7 @@ elif [[ "$x" = "s" || "$x" = "S" || "$1" = "s" || "$1" = "S" || "$1" = "search" 
     read -p "Search the AUR? [Y/n] " choice
 
     if [[ "$choice" = "n" || "$choice" = "N" ]]; then
-        echo "Exiting..."
-        exit
+        echo "Skipping AUR..."
     else
         echo "-> $AUR -Ss $pak | less"
         $AUR -Ss $pak | less
