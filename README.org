@@ -59,6 +59,8 @@ The supported options along with their pacman counter-parts are:
   - =pacmen c/C/clean=
 - Update system -> [sudo pacman -Syyu]
   - =pacmen u/U/update=
+- Tree dependency view -> [pactree]
+  - =pacmen t/T/tree=
 
 Notes:
 - Entering 'e' anytime will exit pacmen

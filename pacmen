@@ -12,6 +12,7 @@ if ! [[ -n "$1" ]]; then
     echo -e "[V]iew installed packages"
     echo -e "[A]UR package install (using paru)"
     echo -e "[C]lean unused packages and files"
+    echo -e "[T]ree view of dependencies of a package"
     echo -e "[E] to exit anytime\n"
 
     read -p "Choose: " x
@@ -188,6 +189,17 @@ elif [[ "$x" = "v" || "$x" = "V" || "$1" = "v" || "$1" = "V" || "$1" = "view" ]]
         echo "-> pacman -Qs $2 | less"
         pacman -Qs $2 | less
     fi
+
+    exit
+
+elif [[ "$x" = "t" || "$x" = "T" || "$1" = "t" || "$1" = "T" || "$1" = "tree" ]]; then
+    if [[ -z "$2" ]]; then
+        pak=$(pacman -Qs | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
+    else
+        pak=$(pacman -Qs $2 | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
+    fi
+
+    pactree $pak | less
 
     exit
 
