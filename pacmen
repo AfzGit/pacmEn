@@ -170,8 +170,16 @@ elif [[ "$x" = "U" || "$x" = "u" || "$1" = "u" || "$1" = "U" || "$1" = "update" 
 # view packages
 elif [[ "$x" = "v" || "$x" = "V" || "$1" = "v" || "$1" = "V" || "$1" = "view" ]]; then
 
-    echo "-> pacman -Qs | less"
-    pacman -Qs | less
+
+    if [[ -z "$2" ]]; then
+        echo "-> pacman -Qs | less"
+        pacman -Qs | less
+    else
+        echo "-> pacman -Qs $2 | less"
+        pacman -Qs $2 | less
+    fi
+
+    exit
 
 # exiting if choice is e
 elif [[ "$x" = "E" || "$x" = "e" ]]; then
@@ -184,6 +192,7 @@ elif [[ "$x" = "E" || "$x" = "e" ]]; then
 else
 
     echo "Unknown inputs."
+    exit
 
 fi
 
