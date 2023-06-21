@@ -126,6 +126,11 @@ elif [[ "$x" = "r" || "$x" = "R" || "$1" = "r" || "$1" = "R" || "$1" = "remove" 
         rem=$(pacman -Qs $2 | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
     fi
 
+    if [[ -z $rem ]]; then
+        echo "Exiting..."
+        exit
+    fi
+
     echo "-> sudo pacman -Rs $rem"
     sudo pacman -Rs $rem
 
