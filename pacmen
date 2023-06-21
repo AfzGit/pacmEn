@@ -188,5 +188,5 @@ else
 fi
 
 echo    "=============================="
-read -p "Press ENTER or Ctrl-C to exit." x
-echo    "=============================="
+echo    "Press ENTER or Ctrl-C to exit."
+read -p "=============================="
