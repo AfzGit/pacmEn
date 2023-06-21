@@ -71,7 +71,6 @@ elif [[ "$x" = "i" || "$x" = "I" || "$1" = "i" || "$1" = "I" || "$1" = "install"
         exit
     fi
 
-    pacsearch -Ss $pak | less
     echo "Select package to install:"
     pakinstall=$(pacman -Ss $pak | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
 
@@ -112,6 +111,17 @@ elif [[ "$x" = "s" || "$x" = "S" || "$1" = "s" || "$1" = "S" || "$1" = "search" 
         $AUR -Ss $pak | less
     fi
 
+    read -p "Install from Local/Aur/No? [L/A/N] " choice
+    if [[ $choice == "L" || $choice == "l" ]]; then
+        pacmen i $pak
+    elif [[ $choice == "A" || $choice == "a" ]]; then
+        pacmen a $pak
+    else
+        exit
+    fi
+
+    exit
+
 # for installing from the AUR
 elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]]; then
 
@@ -126,7 +136,7 @@ elif [[ "$x" = "a" || "$x" = "A" || "$1" = "a" || "$1" = "A" || "$1" = "aur" ]];
         exit
     fi
 
-    $AUR -Ss $pak | less
+    # $AUR -Ss $pak | less
     echo "Select package to install:"
     pakinstall=$($AUR -Ss $pak | awk -F/ '{print $2}' | awk '{print $1}' | sed -r '/^\s*$/d' | fzf --height=35% --border=sharp)
 
